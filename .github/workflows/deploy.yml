@@ -1,4 +1,4 @@
-name: Deploy to Railway
+name: Deploy to Render
 
 on:
   push:
@@ -8,13 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Deploy to Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Trigger Deploy on Render
         run: |
-          curl -fsSL cli.new | sh
-          railway up --service fastapi-book-project
+          curl -X POST "$RENDER_DEPLOY_HOOK"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
