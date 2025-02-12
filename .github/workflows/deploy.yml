@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - fastapiBook
+name: Build and deploy Python app to Azure Web App - fastapi-app-new
 
 on:
   push:
@@ -20,13 +20,9 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-
       - name: Install dependencies
         run: |
+          python -m venv venv
           source venv/bin/activate
           pip install --upgrade pip
           pip install -r requirements.txt
@@ -38,9 +34,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            release.zip
-            !venv/
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,7 +60,6 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
@@ -76,4 +69,4 @@ jobs:
 
       - name: Set Startup Command
         run: |
-          az webapp config set --resource-group <your-resource-group> --name fastapiBook --startup-file "gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:\$PORT main:app"
+          az webapp config set --resource-group fastapi-group --name fastapi-app-new --startup-file "gunicorn -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:\$PORT main:app"
