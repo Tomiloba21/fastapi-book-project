@@ -71,7 +71,8 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'fastapiBook'
+          app-name: 'fastapi-app-new'
+          slot-name: 'Production'
 
       - name: Set Startup Command
         run: |
