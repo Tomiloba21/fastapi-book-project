@@ -39,7 +39,7 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-      url: "http://102.37.212.182"  # Manually set the VM IP as URL
+      url: "http://fastbook-api.duckdns.org/"  
 
     permissions:
       id-token: write
